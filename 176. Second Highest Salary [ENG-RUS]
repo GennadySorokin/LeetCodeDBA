@@ -1,0 +1,202 @@
+[ENG]
+LeetCode
+176. Second Highest Salary
+
+SQL Schema
+
+Create table If Not Exists Employee (id int, salary int)
+Truncate table Employee
+insert into Employee (id, salary) values ('1', '100')
+insert into Employee (id, salary) values ('2', '200')
+insert into Employee (id, salary) values ('3', '300')
+
+Pandas Schema 
+
+Employee = pd.DataFrame([], columns=['id', 'salary']).astype({'id':'int64', 'salary':'int64'})
+
+Table: Employee
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+In SQL, id is the primary key column for this table.
+Each row of this table contains information about the salary of an employee.
+ 
+
+Find the second highest salary from the Employee table. If there is no second highest salary, return null (return None in Pandas).
+
+The result format is in the following example.
+
+Example 1:
+
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+Output: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+
+Example 2:
+
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
++----+--------+
+Output: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| null                |
++---------------------+
+
+Answer:
+SQL query (MySQL, MS SQL):
+SELECT MAX(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+Explanation:
+The inner subquery (SELECT MAX(salary) FROM Employee) finds the highest salary from the Employee table.
+The outer query then selects the maximum salary (MAX(salary)) from the Employee table where the salary is less than the maximum salary found by the subquery. This effectively gives us the second highest salary.
+
+If there is no second highest salary (i.e., only one row in the Employee table), the result will be NULL.
+
+Example 1:
+
+SQL query (MySQL, MS SQL):
+-- Input data
+CREATE TABLE IF NOT EXISTS Employee (id INT, salary INT);
+TRUNCATE TABLE Employee;
+INSERT INTO Employee (id, salary) VALUES (1, 100);
+INSERT INTO Employee (id, salary) VALUES (2, 200);
+INSERT INTO Employee (id, salary) VALUES (3, 300);
+
+-- Query to find the second highest salary
+SELECT MAX(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+Output:
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+
+Example 2:
+SQL query (MySQL, MS SQL):
+-- Input data with one row
+TRUNCATE TABLE Employee;
+INSERT INTO Employee (id, salary) VALUES (1, 100);
+
+-- Query to find the second highest salary
+SELECT MAX(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+Output:
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| NULL                |
++---------------------+
+
+The query will return the second highest salary when it exists and NULL if there is no second highest salary.
+
+
+
+[RUS]
+LeetCode
+176. Вторая по величине зарплата
+
+Схема SQL
+
+Создать таблицу If Not Exists Employee (id int, salary int)
+Усечение таблицы Employee
+insert into Employee (id, salary) values ('1', '100')
+insert into Employee (id, salary) values ('2', '200')
+insert into Employee (id, salary) values ('3', '300')
+
+Схема Pandas 
+
+Employee = pd.DataFrame([], columns=['id','salary']).astype({'id':'int64','salary':'int64'})
+
+Таблица: Сотрудники (Employee)
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+В SQL id является столбцом первичного ключа для этой таблицы.
+Каждая строка этой таблицы содержит информацию о зарплате сотрудника.
+ 
+
+Найдите вторую по величине зарплату из таблицы Сотрудники (Employee). Если второй по величине зарплаты нет, верните null (return None в Pandas).
+Формат результата приведен в следующем примере.
+
+ Пример 1:
+
+Входные данные: 
+
+Таблица "Сотрудники":
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+
+Выходные данные: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+
+Пример 2:
+
+Входные данные: 
+
+Таблица сотрудников:
+
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
++----+--------+
+
+Выходные данные: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| null                |
++---------------------+
+
+Ответ:
+SQL-запрос (MySQL, MS SQL):
+SELECT MAX(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+Пояснения:
+Внутренний подзапрос (SELECT MAX(salary) FROM Employee) находит самую высокую зарплату из таблицы Employee.
+Затем внешний запрос выбирает максимальную зарплату (MAX(salary)) из таблицы Employee, где зарплата меньше, чем максимальная зарплата, найденная подзапросом. Таким образом, мы получаем вторую по величине зарплату.
+
