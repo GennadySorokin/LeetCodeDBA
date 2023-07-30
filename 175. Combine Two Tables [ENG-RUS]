@@ -1,0 +1,196 @@
+[ENG]
+LeetCode
+175. Combine Two Tables
+SQL Schema
+
+Create table If Not Exists Person (personId int, firstName varchar(255), lastName varchar(255))
+Create table If Not Exists Address (addressId int, personId int, city varchar(255), state varchar(255))
+Truncate table Person
+insert into Person (personId, lastName, firstName) values ('1', 'Wang', 'Allen')
+insert into Person (personId, lastName, firstName) values ('2', 'Alice', 'Bob')
+Truncate table Address
+insert into Address (addressId, personId, city, state) values ('1', '2', 'New York City', 'New York')
+insert into Address (addressId, personId, city, state) values ('2', '3', 'Leetcode', 'California')
+
+Table: Person
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| personId    | int     |
+| lastName    | varchar |
+| firstName   | varchar |
++-------------+---------+
+personId is the primary key column for this table.
+This table contains information about the ID of some persons and their first and last names.
+ 
+
+Table: Address
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| addressId   | int     |
+| personId    | int     |
+| city        | varchar |
+| state       | varchar |
++-------------+---------+
+addressId is the primary key column for this table.
+Each row of this table contains information about the city and state of one person with ID = PersonId.
+ 
+
+Write an SQL query to report the first name, last name, city, and state of each person in the Person table. 
+If the address of a personId is not present in the Address table, report null instead.
+
+Return the result table in any order.
+
+
+The query result format is in the following example.
+
+Example 1:
+
+Input: 
+Person table:
++----------+----------+-----------+
+| personId | lastName | firstName |
++----------+----------+-----------+
+| 1        | Wang     | Allen     |
+| 2        | Alice    | Bob       |
++----------+----------+-----------+
+Address table:
++-----------+----------+---------------+------------+
+| addressId | personId | city          | state      |
++-----------+----------+---------------+------------+
+| 1         | 2        | New York City | New York   |
+| 2         | 3        | Leetcode      | California |
++-----------+----------+---------------+------------+
+Output: 
++-----------+----------+---------------+----------+
+| firstName | lastName | city          | state    |
++-----------+----------+---------------+----------+
+| Allen     | Wang     | Null          | Null     |
+| Bob       | Alice    | New York City | New York |
++-----------+----------+---------------+----------+
+Explanation: 
+There is no address in the address table for the personId = 1 so we return null in their city and state.
+addressId = 1 contains information about the address of personId = 2.
+
+Answer:
+To report the first name, last name, city, and state of each person in the Person table along with their corresponding address information (if available). 
+we can use a LEFT JOIN between the Person and Address tables. This will include all rows from the left table (Person) and the matching rows from the right table (Address).
+If there is no match in the Address table, the result will contain NULL values for city and state.
+
+SQL query (MySQL, MS SQL):
+SELECT p.firstName, p.lastName, a.city, a.state
+FROM Person p
+LEFT JOIN Address a
+ON p.personId = a.personId;
+
+Explanation:
+We select the first name (firstName) and last name (lastName) columns from the Person table.
+We perform a LEFT JOIN between the Person table (p) and the Address table (a) on the personId column. 
+This will join the rows from both tables where the personId matches.
+And if there is no matching address for a person, it will still include that person's information in the result with NULL values for city and state.
+The result will contain the first name, last name, city, and state for each person.
+And NULL for city and state if there is no address available for that person in the Address table.
+
+[RUS]
+LeetCode
+175. Объединение двух таблиц
+Схема SQL
+
+Создать таблицу If Not Exists Person (personId int, firstName varchar(255), lastName varchar(255))
+Создать таблицу If Not Exists Address (addressId int, personId int, city varchar(255), state varchar(255))
+Усечение таблицы Person
+insert into Person (personId, lastName, firstName) values ('1', 'Wang', 'Allen')
+insert into Person (personId, lastName, firstName) values ('2', 'Alice', 'Bob')
+Усечение таблицы Address
+insert into Address (addressId, personId, city, state) values ('1', '2', 'New York City', 'New York')
+insert into Address (addressId, personId, city, state) values ('2', '3', 'Leetcode', 'California')
+
+Таблица: Персоны (Person)
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| personId    | int     |
+| lastName    | varchar |
+| firstName   | varchar |
++-------------+---------+
+
+personId является столбцом первичного ключа данной таблицы.
+Данная таблица содержит информацию об идентификаторе некоторых лиц, а также их имена и фамилии.
+
+
+Таблица: Adress (Адрес)
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| addressId   | int     |
+| personId    | int     |
+| city        | varchar |
+| state       | varchar |
++-------------+---------+
+
+addressId является столбцом первичного ключа данной таблицы.
+Каждая строка этой таблицы содержит информацию о городе и штате одного человека с ID = PersonId.
+
+
+Напишите SQL-запрос для получения информации об имени, фамилии, городе и штате каждого человека в таблице Person. 
+Если адрес человека с идентификатором PersonId отсутствует в таблице Address, то вместо него следует выдать null.
+Верните таблицу результатов в любом порядке.
+
+Формат результата запроса приведен в следующем примере.
+
+Пример 1:
+
+Входные данные(Input): 
+
+Таблица персон (Person Table):
+----------+----------+-----------+
+| personId | lastName | firstName |
++----------+----------+-----------+
+| 1        | Wang     | Allen     |
+| 2        | Alice    | Bob       |
++----------+----------+-----------+
+
+Таблица адресов (Address table):
++-----------+----------+---------------+------------+
+| addressId | personId | city          | state      |
++-----------+----------+---------------+------------+
+| 1         | 2        | New York City | New York   |
+| 2         | 3        | Leetcode      | California |
++-----------+----------+---------------+------------+
+
+Выходные данные (Output): 
++-----------+----------+---------------+----------+
+| firstName | lastName | city          | state    |
++-----------+----------+---------------+----------+
+| Allen     | Wang     | Null          | Null     |
+| Bob       | Alice    | New York City | New York |
++-----------+----------+---------------+----------+
+
+Объяснение: 
+В адресной таблице нет адреса для personId = 1, поэтому мы возвращаем null для его города и штата.
+АдресId = 1 содержит информацию об адресе personId = 2.
+
+
+Ответ:
+Мы можем использовать LEFT JOIN между таблицами Person и Address, чтобы сообщить имя, фамилию, город и штат каждого человека в таблице Person.
+Также соответствующую адресную информацию (если она имеется). 
+В него будут включены все строки из левой таблицы (Person) и совпадающие строки из правой таблицы (Address).
+Если в таблице Address нет совпадений, то результат будет содержать NULL-значения для городов и штатов.
+
+SQL-запрос (MySQL, MS SQL):
+SELECT p.firstName, p.lastName, a.city, a.state
+FROM Person p
+LEFT JOIN Address a
+ON p.personId = a.personId;
+
+Пояснения:
+Мы выбираем столбцы имени (FirstName) и фамилии (LastName) из таблицы Person.
+Мы выполняем LEFT JOIN между таблицей Person (p) и таблицей Address (a) по столбцу personId. 
+В результате будут объединены строки из обеих таблиц, в которых совпадает personId.
+И если для человека не найдется подходящего адреса, то в результат все равно будет включена информация о нем с NULL-значениями для города и штата.
+Результат будет содержать имя, фамилию, город и штат для каждого человека.
+И NULL для города и штата, если для этого человека нет адреса в таблице Address.
+
