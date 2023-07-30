@@ -1,6 +1,7 @@
 [ENG]
 LeetCode
 175. Combine Two Tables
+
 SQL Schema
 
 Create table If Not Exists Person (personId int, firstName varchar(255), lastName varchar(255))
