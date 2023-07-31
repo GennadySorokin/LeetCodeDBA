@@ -1,0 +1,156 @@
+[ENG]
+LeetCode
+180. Consecutive Numbers
+SQL Schema
+
+Create table If Not Exists Logs (id int, num int)
+Truncate table Logs
+insert into Logs (id, num) values ('1', '1')
+insert into Logs (id, num) values ('2', '1')
+insert into Logs (id, num) values ('3', '1')
+insert into Logs (id, num) values ('4', '2')
+insert into Logs (id, num) values ('5', '1')
+insert into Logs (id, num) values ('6', '2')
+insert into Logs (id, num) values ('7', '2')
+
+pandansSchema
+
+Logs = pd.DataFrame([], columns=['id', 'num']).astype({'id':'Int64', 'num':'Int64'})
+
+Table: Logs
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| num         | varchar |
++-------------+---------+
+In SQL, id is the primary key for this table.
+id is an autoincrement column.
+ 
+
+Find all numbers that appear at least three times consecutively.
+
+Return the result table in any order.
+
+The result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Logs table:
++----+-----+
+| id | num |
++----+-----+
+| 1  | 1   |
+| 2  | 1   |
+| 3  | 1   |
+| 4  | 2   |
+| 5  | 1   |
+| 6  | 2   |
+| 7  | 2   |
++----+-----+
+Output: 
++-----------------+
+| ConsecutiveNums |
++-----------------+
+| 1               |
++-----------------+
+Explanation: 1 is the only number that appears consecutively for at least three times.
+
+Answer:
+Explanation
+To find all numbers that appear at least three times consecutively in SQL, we can use the LAG and LEAD window functions to check the previous and next values for each row. If the current value is the same as the previous and next values, then it appears at least three times consecutively.
+
+The query returns the numbers that appear at least three times consecutively from the Logs table. In this example, the number 1 is the only one that meets this condition.
+
+MySQL, MS SQL Code
+SELECT DISTINCT num AS ConsecutiveNums
+FROM (
+  SELECT num,
+         LAG(num) OVER (ORDER BY id) AS prev_num,
+         LEAD(num) OVER (ORDER BY id) AS next_num
+  FROM Logs
+) AS temp
+WHERE num = prev_num AND num = next_num;
+
+[RUS]
+LeetCode
+180. Последовательные числа
+Схема SQL
+
+Создать таблицу If Not Exists Logs (id int, num int)
+Усечение таблицы Logs
+insert into Logs (id, num) values ('1', '1')
+insert into Logs (id, num) values ('2', '1')
+insert into Logs (id, num) values ('3', '1')
+insert into Logs (id, num) values ('4', '2')
+insert into Logs (id, num) values ('5', '1')
+insert into Logs (id, num) values ('6', '2')
+insert into Logs (id, num) values ('7', '2')
+
+pandansSchema
+
+Logs = pd.DataFrame([], columns=['id', 'num']).astype({'id':'Int64', 'num':'Int64'})
+
+Таблица: Журналы
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| num         | varchar |
++-------------+---------+
+В SQL id является первичным ключом для этой таблицы.
+Столбец id является автоинкрементным.
+ 
+
+Найти все числа, которые встречаются не менее трех раз подряд.
+
+Вернуть таблицу результатов в любом порядке.
+
+Формат результата приведен в следующем примере.
+
+ 
+
+Пример 1:
+
+Входные данные: 
+Таблица журналов (Logs):
++----+-----+
+| id | num |
++----+-----+
+| 1  | 1   |
+| 2  | 1   |
+| 3  | 1   |
+| 4  | 2   |
+| 5  | 1   |
+| 6  | 2   |
+| 7  | 2   |
++----+-----+
+
+Выходные данные: 
++-----------------+
+| ConsecutiveNums |
++-----------------+
+| 1               |
++-----------------+
+Пояснение: 1 - единственное число, которое встречается подряд не менее трех раз.
+
+Ответ:
+Пояснение
+Чтобы найти в SQL все числа, которые встречаются подряд не менее трех раз, можно использовать оконные функции LAG и LEAD для проверки предыдущего и следующего значений для каждой строки. Если текущее значение совпадает с предыдущим и следующим значениями, то оно встречается не менее трех раз подряд.
+
+Запрос возвращает из таблицы Logs числа, которые встречаются не менее трех раз подряд. В данном примере число 1 - единственное, удовлетворяющее этому условию.
+
+Код MySQL, MS SQL
+SELECT DISTINCT num AS ConsecutiveNums
+FROM (
+  SELECT num,
+         LAG(num) OVER (ORDER BY id) AS prev_num,
+         LEAD(num) OVER (ORDER BY id) AS next_num
+  FROM Журналы
+) AS temp
+WHERE num = prev_num AND num = next_num;
